@@ -10,7 +10,7 @@ const initialState={
 
 //api calling - pending,success,error
 export function weatherReducer(state=initialState,action){
-    if(action.type===SET_CITY){
+    if(action.type===FETCH_WEATHER_PENDING){
         return {
             ...state,
             loading:true,
@@ -35,7 +35,7 @@ export function weatherReducer(state=initialState,action){
             loading:false, 
             error:action.payload
         }
-    }else if(action.type===FETCH_WEATHER_PENDING){
+    }else if(action.type===SET_CITY){
         return {
             ...state,
             city:action.payload

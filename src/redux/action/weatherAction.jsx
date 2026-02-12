@@ -1,4 +1,6 @@
 import {FETCH_WEATHER_PENDING,FETCH_CURRENT_SUCCESS,FETCH_FORECAST_SUCCESS,FETCH_WEATHER_ERROR,SET_CITY} from '../constant/weatherConstant';
+import axios from "axios";
+const api=import.meta.env.VITE_WEATHER_API; 
 
 function fetchWeatherPending(){
     return {
@@ -31,10 +33,21 @@ function setCity(city){
     }
 }
 
+function fetchWeather(city){
+    return async (dispatch)=>{
+        dispatch(fetchWeatherPending());
+        try{
+            const weather=await axios(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api}`);
+            const forecast=await axios(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api}`);
+            dispatch(fetchCurrentSuccess(weather.data));
+            dispatch(fetchForecastSuccess(forecast.data.list));
+        }catch(error){
+            dispatch(fetchWeatherError('Something Went Wrong!!'));
+        }
+    }
+}
+
 export {
-    fetchWeatherPending,
-    fetchCurrentSuccess,
-    fetchForecastSuccess,
-    fetchWeatherError,
+    fetchWeather,
     setCity 
 }
