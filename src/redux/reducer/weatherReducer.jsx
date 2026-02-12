@@ -1,0 +1,46 @@
+import {FETCH_WEATHER_PENDING,FETCH_CURRENT_SUCCESS,FETCH_FORECAST_SUCCESS,FETCH_WEATHER_ERROR,SET_CITY} from '../constant/weatherConstant';
+
+const initialState={
+    city:"Delhi",
+    current:null,
+    forecast:null,
+    loading:false,
+    error:null,
+}
+
+//api calling - pending,success,error
+export function weatherReducer(state=initialState,action){
+    if(action.type===SET_CITY){
+        return {
+            ...state,
+            loading:true,
+            error:null,
+        }
+    }else if(action.type===FETCH_CURRENT_SUCCESS){
+        return {
+            ...state,
+            loading:false,
+            current:action.payload
+        }
+
+    }else if(action.type===FETCH_FORECAST_SUCCESS){
+        return {
+            ...state,
+            loading:false,
+            forecast:action.payload
+        }
+    }else if(action.type===FETCH_WEATHER_ERROR){
+        return {
+            ...state, 
+            loading:false, 
+            error:action.payload
+        }
+    }else if(action.type===FETCH_WEATHER_PENDING){
+        return {
+            ...state,
+            city:action.payload
+        }
+    }else{
+        return state;
+    }
+}
