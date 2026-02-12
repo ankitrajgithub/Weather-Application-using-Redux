@@ -1,13 +1,27 @@
+import {useSelector} from 'react-redux';
+
 export function ForecastWeather(){
+
+    const {forecast,loading,error}=useSelector(state=>{
+        return state.weatherReducer;
+    });
+
+    if(loading){
+        return null;
+    };
+
+    if(error){
+        return <p>{error}</p>
+    }
+
     return (
-        <div className="card bg-neutral text-neutral-content w-96">
+        forecast && <div className="card bg-neutral text-neutral-content w-96">
         <div className="card-body items-center text-center">
-            <h2 className="card-title">Cookies!</h2>
-            <p>We are using cookies for no reason.</p>
-            <div className="card-actions justify-end">
-            <button className="btn btn-primary">Accept</button>
-            <button className="btn btn-ghost">Deny</button>
-            </div>
+            <h2 className="card-title">{forecast.name}</h2>
+            {forecast.map((item)=>{
+                return <p key={item.dt}>{item.dt_txt} - {(item.main.temp-273).toFixed(1)} °C</p>
+            })
+            }
         </div>
         </div>
     )

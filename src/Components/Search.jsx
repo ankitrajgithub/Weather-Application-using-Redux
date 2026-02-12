@@ -5,7 +5,6 @@ export function Search() {
     const city=useSelector((state)=>{
         return state.weatherReducer.city;
       });
-    console.log(city);
 
     const dispatch=useDispatch();
 
